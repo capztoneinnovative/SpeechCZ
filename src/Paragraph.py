@@ -3,7 +3,12 @@ import speech_recognition as sr
 import re
 
 
-class Paragraph_Reading:
+#with wordlist
+import pyttsx3
+import speech_recognition as sr
+import re
+
+class SpeechRecognition:
     def __init__(self, printed_sentence):
         self.printed_sentence = printed_sentence
 
@@ -22,13 +27,13 @@ class Paragraph_Reading:
             if printed_word != spoken_word:
                 wrong_words.append((printed_word, spoken_word))
         return wrong_words
-
+    # this function used to user reading the paragraph
     def speech_to_text(self):
         recognizer = sr.Recognizer()
 
         while True:
             with sr.Microphone() as source:
-                print("--------Please read the paragraph-----:")
+                #print("--------Please read the paragraph-----:")
                 recognizer.adjust_for_ambient_noise(source)
                 audio = recognizer.listen(source)
 
@@ -37,9 +42,11 @@ class Paragraph_Reading:
                 print("You said: ", text)
                 return text
             except sr.UnknownValueError:
-                print("Sorry, Your voice is too low. Please speak loudly and try again.")
+                pass
+                #print("Sorry, Your voice is too low. Please speak loudly and try again.")
             except sr.RequestError as e:
-                print("Could not request results from Google Speech Recognition service; {0}".format(e))
+                pass
+                #print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
     def run(self):
         while True:
@@ -47,13 +54,17 @@ class Paragraph_Reading:
             if spoken_sentence:
                 wrong_words = self.compare_sentences(spoken_sentence)
                 if wrong_words:
-                    print("You pronounced the following words incorrectly:")
+                   # showing correct word and spoken words
                     for printed_word, spoken_word in wrong_words:
-                        print("Sentence Word:", printed_word, "        Spoken Word:", spoken_word)
-                    if len(wrong_words) > 10:
-                        print("You pronounced more than 10 words incorrectly. Please try again.")
-                    else:
-                        break  
+                        pass
+                        #print("Sentence Word:", printed_word, "        Spoken Word:", spoken_word)    
+                    # listed all incorrected words
+                    wrong_words_list = [word[0] for word in wrong_words]
+                    #print("List of wrong words:", wrong_words_list)
+                    return wrong_words_list
+                    
+                    #return wrong_words  # Return the list of wrong words
+                
                 else:
                     print("You pronounced all words correctly!")
-                    break  
+                    return []  # Return an empty list if all words are pronounced correctly

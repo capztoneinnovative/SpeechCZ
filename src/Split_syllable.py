@@ -36,7 +36,7 @@ class Split_syllable:
                         if exception_attempts >= 3:
                             print("Maximum exception attempts reached for this word.")
                             break
-
+        # syllable split and correct pronunciation show 
     def print_syllables(self, word):
         syllables = self.hyphenator.syllables(word)
         pronunciation = ipa_list(word)[0]
