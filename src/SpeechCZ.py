@@ -36,17 +36,12 @@ def SpeechCZ():
 
     db_connector = DataBase(server, database, username, password)
     connection = db_connector.connect()
-    if connection:
-        #cursor = connection.cursor()
-        #input_letter = input("Enter the letter to search for: ")
-        #sql_query = f"SELECT * FROM highword WHERE WordName LIKE '{input_letter}%';"
-        
+    if connection:  
         cursor = connection.cursor()
         input_letter = input("Enter the letter to search for: ")
         sql_query = f"SELECT TOP 3 * FROM highword WHERE WordName LIKE '{input_letter}%';"
         cursor.execute(sql_query)
         rows = cursor.fetchall()
-        print(rows)
         word_list = [item[1] for item in rows]
         print(word_list)  
     else:
