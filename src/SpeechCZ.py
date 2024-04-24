@@ -29,18 +29,18 @@ def log_info_save():
 
     return username, password
 
-def SpeechCZ():
+def SpeechCZ(input_letter):
     # connect the db
     server = 'LAPTOP-S1QDCEQ9\SQLEXPRESS'
     database = 'Speech'
     username, password = log_info_save()
 
     db_connector = DataBase(server, database, username, password)
-    connection = db_connector.connect()
+    connection = db_connector.connection()
     if connection:  
         cursor = connection.cursor()
         
-        input_letter = input("Enter the letter to search for: ")
+        
         sql_query = f"SELECT TOP 3 * FROM highword WHERE WordName LIKE '{input_letter}%';"
         cursor.execute(sql_query)
         rows = cursor.fetchall()
@@ -53,4 +53,6 @@ def SpeechCZ():
     speech_to_audio.recognize_speech()
 
 if __name__ == "__main__":
-    SpeechCZ()
+    input_letter = input("Enter the letter to search for: ")
+    SpeechCZ(input_letter)
+

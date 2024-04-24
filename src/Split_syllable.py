@@ -1,6 +1,6 @@
-import speech_recognition as sr
-from hyphen import Hyphenator
-from eng_to_ipa import ipa_list
+import speech_recognition as sr              # type: ignore
+from hyphen import Hyphenator                 # type: ignore
+from eng_to_ipa import ipa_list               # type: ignore
 
 class Split_syllable:
     def __init__(self, word_list):
