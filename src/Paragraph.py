@@ -1,13 +1,13 @@
 import sys
-import pyttsx3
-import speech_recognition as sr
+import pyttsx3  # type: ignore
+import speech_recognition as sr  # type: ignore
 import re
 import logging
 
 from error_handling import CustomException
 from logger import logging
 
-class SpeechRecognition:
+class Paragraph:
     def __init__(self, printed_sentence):
         self.printed_sentence = printed_sentence
         self.logger = logging.getLogger(__name__)

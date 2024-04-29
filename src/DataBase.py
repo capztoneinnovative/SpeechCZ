@@ -13,10 +13,10 @@ class DataBase:
         self.password = password
         self.connection = None
 
-    def connection(self):
+    def connect(self):
         try:
-            self.connection = pyodbc.connection('DRIVER={SQL Server};SERVER='+self.server+';DATABASE='+self.database+';UID='+self.username+';PWD='+ self.password)
-            logging.INFO("Connected to the database successfully!")
+            self.connection = pyodbc.connect('DRIVER={SQL Server};SERVER='+self.server+';DATABASE='+self.database+';UID='+self.username+';PWD='+ self.password)
+            logging.info("Connected to the database successfully!")
             #print("Connected to the database successfully!")
             return self.connection
         except Exception as e:
