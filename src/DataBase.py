@@ -1,5 +1,5 @@
 import sys
-import pyodbc                                   # type: ignore
+import pyodbc            # type: ignore
 
 from error_handling import CustomException
 from logger import logging
@@ -12,7 +12,7 @@ class DataBase:
         self.username = username
         self.password = password
         self.connection = None
-
+        
     def connect(self):
         try:
             self.connection = pyodbc.connect('DRIVER={SQL Server};SERVER='+self.server+';DATABASE='+self.database+';UID='+self.username+';PWD='+ self.password)
@@ -29,5 +29,6 @@ class DataBase:
         if self.connection:
             self.connection.close()
             #print("Connection closed.")
+  
 
     
