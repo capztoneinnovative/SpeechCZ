@@ -1,6 +1,6 @@
-import sys
-import pyodbc            # type: ignore
 
+import pyodbc               # type: ignore          
+import sys
 from error_handling import CustomException
 from logger import logging
 
@@ -11,24 +11,25 @@ class DataBase:
         self.database = database
         self.username = username
         self.password = password
-        self.connection = None
-        
+        self.connection = self.connect()
+
     def connect(self):
         try:
-            self.connection = pyodbc.connect('DRIVER={SQL Server};SERVER='+self.server+';DATABASE='+self.database+';UID='+self.username+';PWD='+ self.password)
-            logging.info("Connected to the database successfully!")
-            #print("Connected to the database successfully!")
-            return self.connection
-        except Exception as e:
-            logging.error("Error inserting data:", exc_info=True)
-            #print("Error connecting to database:", e)
-            raise CustomException(e,sys)
-            #return None
+            conn = pyodbc.connect(f"DRIVER={{SQL Server}};SERVER={self.server};DATABASE={self.database};UID={self.username};PWD={self.password}")
+            return conn
+        except pyodbc.Error as e:
+            #logging.error("Error inserting data:", exc_info=True)
+            print(f"Error connecting to database: {e}")
+            return None
 
-    def close(self):
+    def get_cursor(self):
         if self.connection:
-            self.connection.close()
-            #print("Connection closed.")
-  
+            return self.connection.cursor()
+        else:
+            raise CustomException("No connection available.")
+
+
+
+
 
     
