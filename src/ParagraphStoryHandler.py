@@ -2,7 +2,7 @@ from DataBase import DataBase
 import os
 from paragraph_module import ParagraphStory
 from Paragraph import Paragraph
-from OutputHandler import OutputHandler
+
 class ParagraphStoryHandler:
     def __init__(self, server, database, username, password, output_handler):
         self.server = server

@@ -1,4 +1,70 @@
+import os
+import sys
+from datetime import datetime
+from DataBase import DataBase
+from Split_syllable import Split_syllable
+from highword_module import HighWord
+from paragraph_module import ParagraphStory
+from Paragraph import Paragraph
+from HighFrequencyHandler import HighFrequency
+from ParagraphStoryHandler import ParagraphStoryHandler
+from userinfo import UserHandler
 
+def insert_result(cursor, connection, high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate):
+    query = """
+    INSERT INTO HighFrequencyResults (high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate)
+    VALUES (?, ?, ?, ?, ?)
+    """
+    cursor.execute(query, (high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate))
+    connection.commit()
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <function_name>")
+        return
+
+    server = 'LAPTOP-S1QDCEQ9\\SQLEXPRESS'
+    database = 'Speech'
+    username = 'karan'
+    password = '123456789'
+    output_dir = 'output'
+    
+    function_name = sys.argv[1]
+
+    # Create a UserHandler instance and attempt to login
+    user_handler = UserHandler(server, database, username, password)
+    username_input = input("Enter your username: ")
+    password_input = input("Enter your password: ")
+    user_handler.login_user(username_input, password_input)
+
+    # If login successful, proceed with the selected function
+    if user_handler.logged_in:
+        if function_name == "highfrequency":
+            high_frequency = HighFrequency(server, database, username, password)
+            input_letter = input("Enter the starting letter: ")
+            word_list = high_frequency.word_retrieve(input_letter)
+            results = high_frequency.recognize_and_write_output(word_list)
+            
+            # Assuming results contains the necessary values for the insert_result function
+            for result in results:
+                high_freq_word = result['high_freq_word']
+                correct_count = result['correct_count']
+                incorrect_count = result['incorrect_count']
+                total_attempts = result['total_attempts']
+                accuracy_rate = result['accuracy_rate']
+                
+                insert_result(high_frequency.cursor, high_frequency.connection, high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate)
+        else:
+            print(f"Function '{function_name}' not recognized.")
+    else:
+        print("Login failed. Please check your username and password.")
+
+if __name__ == "__main__":
+    main()
+
+
+
+"""
 import os
 import sys
 from DataBase import DataBase
@@ -6,12 +72,54 @@ from Split_syllable import Split_syllable
 from highword_module import HighWord
 from paragraph_module import ParagraphStory
 from Paragraph import Paragraph
-from OutputHandler import OutputHandler
+
 from HighFrequencyHandler import HighFrequency
 from ParagraphStoryHandler import ParagraphStoryHandler
+from userinfo import UserHandler
 
+import sys
 
 def main():
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <function_name>")
+        return
+    server = 'LAPTOP-S1QDCEQ9\SQLEXPRESS'
+    database = 'Speech'
+    username = 'karan'
+    password = '123456789'
+    output_dir = 'output'
+
+    function_name = sys.argv[1]
+
+    # Create a UserHandler instance and attempt to login
+    user_handler = UserHandler(server, database, username, password)
+    username_input = input("Enter your username: ")
+    password_input = input("Enter your password: ")
+    user_handler.login_user(username_input, password_input)
+
+    # If login successful, proceed with the selected function
+    if user_handler.logged_in:
+        if function_name == "highfrequency":
+            high_frequency = HighFrequency(server, database, username, password)
+            input_letter = input("Enter the starting letter: ")
+            word_list = high_frequency.word_retrieve(input_letter)
+            high_frequency.recognize_and_write_output(word_list)
+            
+            
+        elif function_name == "paragraphstory":
+            paragraph_story_handler = ParagraphStoryHandler(server, database, username, password, )
+            printed_sentence = paragraph_story_handler.paragraph_retrieve()
+            paragraph_story_handler.recognize_and_write_output(printed_sentence)
+        else:
+            print("Invalid function name.")
+    else:
+        print("Login failed.")
+
+if __name__ == "__main__":
+    main()
+"""
+
+"""def main():
     if len(sys.argv) != 2:
         #print("Usage: python script.py <function_name>")
         return
@@ -40,13 +148,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
+"""
 
 """
 def create_output_directory(directory_name):
