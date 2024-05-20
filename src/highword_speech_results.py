@@ -1,3 +1,4 @@
+# database_handler.py
 import pyodbc  # type: ignore
 from datetime import datetime
 
@@ -17,17 +18,16 @@ class DatabaseHandler:
                                    incorrect_count INT,
                                    total_attempts INT,
                                    accuracy_rate FLOAT,
-                                   last_attempt_date DATETIME)''')
+                                   last_attempt_date DATETIME,
+                                   username NVARCHAR(255))''')
         self.connection.commit()
 
-    def insert_result(self, high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate):
+    def insert_result(self, high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate,username):
         last_attempt_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.cursor.execute('''INSERT INTO results (high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate, last_attempt_date)
-                               VALUES (?, ?, ?, ?, ?, ?)''', 
-                               (high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate, last_attempt_date))
+        self.cursor.execute('''INSERT INTO results (high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate, last_attempt_date,username)
+                               VALUES (?, ?, ?, ?, ?, ?, ?)''', 
+                               (high_freq_word, correct_count, incorrect_count, total_attempts, accuracy_rate, last_attempt_date,username))
         self.connection.commit()
 
     def close(self):
         self.connection.close()
-
-

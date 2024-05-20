@@ -1,3 +1,4 @@
+
 import sys
 from DataBase import DataBase
 from error_handling import CustomException
@@ -26,5 +27,3 @@ class HighWord:
         except pyodbc.Error as e:
             logging.error(f"Error executing SQL query: {e}")
             return None
-
-

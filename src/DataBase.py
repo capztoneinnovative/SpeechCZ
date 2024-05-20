@@ -1,5 +1,5 @@
 
-import pyodbc               # type: ignore          
+import pyodbc        # type: ignore           
 import sys
 from error_handling import CustomException
 from logger import logging
