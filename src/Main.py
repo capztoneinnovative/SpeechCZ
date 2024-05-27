@@ -2,6 +2,9 @@ import sys
 from userinfo import UserHandler
 from highword_speech_results import DatabaseHandler
 from HighFrequencyHandler import HighFrequency
+from ParagraphStoryHandler import ParagraphStoryHandler
+
+from paragraph_read_result import ReadingResults
 
 def main():
     if len(sys.argv) != 2:
@@ -21,7 +24,7 @@ def main():
     username = input("Enter your username: ")
     password_input = input("Enter your password: ")
     if user_handler.login_user(username, password_input):
-
+        
         if function_name == "highfrequency":
             high_frequency = HighFrequency(server, database, username, password)
             input_letter = input("Enter the starting letter: ")
@@ -33,10 +36,23 @@ def main():
             for result in results:
                 db_handler.insert_result(
                     result['high_freq_word'], result['correct_count'], result['incorrect_count'],
-                    result['total_attempts'], result['accuracy_rate'],username
+                    result['total_attempts'], result['accuracy_rate'], username
                 )
-            
             db_handler.close()
+
+        elif function_name == "paragraphread":
+            paragraph_handler = ParagraphStoryHandler(server, database, username, password)
+            paragraph_retrieves = paragraph_handler.paragraph_retrieve()
+            results = paragraph_handler.recognize_and_write_output(paragraph_retrieves)
+
+            db_handler = ReadingResults(server, database, username, password)
+            for result in results:
+                db_handler.insert_data(
+                    username, result['incorrect_word_list']
+                    
+                )
+            db_handler.close()
+
         else:
             print(f"Function '{function_name}' not recognized.")
     else:
@@ -45,3 +61,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+

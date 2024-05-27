@@ -8,7 +8,7 @@ from logger import logging
 from highword_module import HighWord
 from paragraph_module import ParagraphStory
 #from speechcz import SpeechCZ
-from OutputHandler import OutputHandler
+#from OutputHandler import OutputHandler
 from HighFrequencyHandler import HighFrequency
 from ParagraphStoryHandler import ParagraphStoryHandler
 from userinfo import UserHandler
