@@ -1,3 +1,4 @@
+
 import sys
 from userinfo import UserHandler
 from highword_speech_results import DatabaseHandler
@@ -39,7 +40,7 @@ def main():
                     result['total_attempts'], result['accuracy_rate'], username
                 )
             db_handler.close()
-
+        
         elif function_name == "paragraphread":
             paragraph_handler = ParagraphStoryHandler(server, database, username, password)
             paragraph_retrieves = paragraph_handler.paragraph_retrieve()
@@ -47,11 +48,12 @@ def main():
 
             db_handler = ReadingResults(server, database, username, password)
             for result in results:
+                # Assuming 'incorrect_word_list' is a string or a type that can be converted to a valid SQL data type
+                incorrect_word_list_str = ','.join(result['incorrect_word_list'])  # Convert list to string if necessary
                 db_handler.insert_data(
-                    username, result['incorrect_word_list']
-                    
+                    username, incorrect_word_list_str
                 )
-            db_handler.close()
+            db_handler.close_connection()
 
         else:
             print(f"Function '{function_name}' not recognized.")

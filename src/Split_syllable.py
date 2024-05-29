@@ -1,4 +1,5 @@
 # split_syllable.py
+import sys
 import speech_recognition as sr  # type: ignore
 from hyphen import Hyphenator  # type: ignore
 from eng_to_ipa import ipa_list  # type: ignore
@@ -20,7 +21,7 @@ class Split_syllable:
                 print("You said:", voice)
                 return voice.lower()
             except Exception as e:
-                raise CustomException(e)
+                raise CustomException(e,sys)
 
     def print_syllables(self, word):
         syllables = self.hyphenator.syllables(word)
