@@ -1,4 +1,4 @@
-import pyodbc # type: ignore
+import pyodbc                       #type: ignore
 import datetime
 
 class UserHandler:
