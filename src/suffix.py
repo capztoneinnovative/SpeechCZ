@@ -1,5 +1,3 @@
-from TextToSpeech_suffix import TextToSpeech
-from DatabaseManager_suffix import DatabaseManager
 from error_handling import CustomException
 from logger import logging
 

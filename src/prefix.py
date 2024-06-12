@@ -1,5 +1,3 @@
-from TextToSpeech_prefix import TextToSpeech
-from DatabaseManager_prefix import DatabaseManager
 from error_handling import CustomException
 from logger import logging
 
@@ -10,8 +8,8 @@ class PrefixApplication:
 
     def run(self):
         try:
-            random_suffixes = self.db_manager.retrieve_random_prefix()
-            self.tts.voice_prefixes(random_suffixes)
+            random_prefixes = self.db_manager.retrieve_random_prefix()
+            self.tts.voice_prefixes(random_prefixes)
         except CustomException as e:
             logging.error(f"An error occurred: {e}")
         finally:

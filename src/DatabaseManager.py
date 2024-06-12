@@ -1,10 +1,8 @@
-import pyodbc  #type: ignore
+import pyodbc
 import random
-import sys
 from error_handling import CustomException
 from logger import logging
 
-# Database connection and management class
 class DatabaseManager:
     def __init__(self, server, database, username, password):
         self.server = server
@@ -36,10 +34,20 @@ class DatabaseManager:
             cursor = self.get_cursor()
             cursor.execute('SELECT prefix, examples FROM prefix')
             prefixes = cursor.fetchall()
-            return random.sample(prefixes, num_prefix)
+            return random.choices(prefixes, k=num_prefix)  # Fetching all prefixes and selecting random ones
         except pyodbc.Error as e:
             logging.error(f"Error retrieving prefixes: {e}")
             raise CustomException(f"Error retrieving prefixes: {e}")
+
+    def retrieve_random_suffixes(self, num_suffixes=1):
+        try:
+            cursor = self.get_cursor()
+            cursor.execute('SELECT suffix, examples FROM suffixes')
+            suffixes = cursor.fetchall()
+            return random.choices(suffixes, k=num_suffixes)  # Fetching all suffixes and selecting random ones
+        except pyodbc.Error as e:
+            logging.error(f"Error retrieving suffixes: {e}")
+            raise CustomException(f"Error retrieving suffixes: {e}")
 
     def close(self):
         if self.connection:
